@@ -1,4 +1,8 @@
-export type PublicationStatus = "draft" | "in_progress" | "released" | "archived";
+export type PublicationStatus =
+  | "draft"
+  | "in_progress"
+  | "published"
+  | "archived";
 
 export interface MusicLink {
   label: string;
@@ -14,17 +18,41 @@ export interface MusicCredit {
 export interface BaseMusicDoc {
   slug: string;
   title: string;
+  artist?: string;
+  type?: string;
   summary?: string;
   description?: string;
   status?: PublicationStatus;
+  year?: number;
+  releaseDate?: string;
   publishedAt?: string;
   updatedAt?: string;
   tags?: string[];
 }
 
+export interface MusicAudioAsset {
+  url: string;
+  format?: string;
+  bitrateKbps?: number;
+}
+
+export interface MusicLyrics {
+  text: string;
+  format?: "plain" | "markdown";
+}
+
+export interface MusicRelated {
+  journey_entry_slugs?: string[];
+}
+
 export interface MusicTrackSingleDocV1 extends BaseMusicDoc {
   durationSeconds?: number;
   isrc?: string;
+  context?: string;
+  details?: string;
+  lyrics?: MusicLyrics;
+  audio?: MusicAudioAsset;
+  related?: MusicRelated;
   links?: MusicLink[];
   credits?: MusicCredit[];
 }

@@ -1,7 +1,8 @@
-import type { Metadata } from "next";
 import Link from "next/link";
+import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
+import NavLink from "../components/NavLink";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -39,13 +40,13 @@ export default function RootLayout({
               <nav aria-label="Main">
                 <ul className="nav-list">
                   <li>
-                    <Link href="/artists">Artists</Link>
+                    <NavLink href="/artists">Artists</NavLink>
                   </li>
                   <li>
-                    <Link href="/music">Music</Link>
+                    <NavLink href="/music">Music</NavLink>
                   </li>
                   <li>
-                    <Link href="/journey">Journey</Link>
+                    <NavLink href="/journey">Journey</NavLink>
                   </li>
                 </ul>
               </nav>
