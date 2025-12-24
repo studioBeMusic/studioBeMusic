@@ -64,15 +64,23 @@ export default async function TrackPage({ params }: TrackPageProps) {
 
   return (
     <article className="stack gap-large">
-      {metaLine ? <p className="meta">{metaLine}</p> : null}
-      <h1>{track.title}</h1>
+      <p className="meta">
+        <Link href="/music/singles" className="text-link">
+          ← Back to Singles
+        </Link>
+      </p>
 
-      {track.context ? (
-        <section className="stack gap-medium">
-          <h2>Context</h2>
+      <h1>{track.title}</h1>
+      {metaLine ? <p className="meta">{metaLine}</p> : null}
+
+      <section className="stack gap-medium">
+        <h2>Context</h2>
+        {track.context ? (
           <p>{track.context}</p>
-        </section>
-      ) : null}
+        ) : (
+          <p className="muted">Context will appear here when available.</p>
+        )}
+      </section>
 
       <section className="stack gap-medium">
         <h2>Listen</h2>

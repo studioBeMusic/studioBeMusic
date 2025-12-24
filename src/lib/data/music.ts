@@ -14,14 +14,30 @@ type RawDoc = DocumentSnapshot<DocumentData>;
 
 const musicCollection = adminDb.collection("music_tracks");
 
+function normalizeTimestamp(
+  value?: string | { toDate?: () => Date }
+): string | undefined {
+  if (!value) return undefined;
+  if (typeof value === "string") return value;
+  if (typeof value.toDate === "function") {
+    const date = value.toDate();
+    return date instanceof Date ? date.toISOString() : undefined;
+  }
+  return undefined;
+}
+
 function normalizeSingleDoc(doc: RawDoc): MusicTrackSingleDocV1 | null {
   const data = doc.data();
   if (!data) return null;
   if (data.type !== "single" || data.status !== "published") return null;
 
   const slug = data.slug ?? doc.id;
+  const releaseDate = normalizeTimestamp(
+    data.release_date ?? data.releaseDate
+  );
 
   return {
+    id: doc.id,
     slug,
     title: data.title ?? slug,
     artist: data.artist,
@@ -30,9 +46,9 @@ function normalizeSingleDoc(doc: RawDoc): MusicTrackSingleDocV1 | null {
     summary: data.summary,
     description: data.description,
     year: data.year,
-    releaseDate: data.release_date ?? data.releaseDate,
-    publishedAt: data.published_at ?? data.publishedAt,
-    updatedAt: data.updated_at ?? data.updatedAt,
+    releaseDate,
+    publishedAt: normalizeTimestamp(data.published_at ?? data.publishedAt),
+    updatedAt: normalizeTimestamp(data.updated_at ?? data.updatedAt),
     tags: data.tags,
     durationSeconds: data.duration_seconds ?? data.durationSeconds,
     isrc: data.isrc,
@@ -56,6 +72,7 @@ function normalizeEditionDoc(
   const slug = data.slug ?? doc.id;
 
   return {
+    id: doc.id,
     slug,
     parentTrackSlug: parentSlug,
     title: data.title ?? slug,
@@ -100,6 +117,7 @@ export async function listPublishedSingles(): Promise<MusicTrackSingleDocV1[]> {
   const snapshot = await musicCollection
     .where("type", "==", "single")
     .where("status", "==", "published")
+    .orderBy("release_date", "desc")
     .get();
 
   const singles: MusicTrackSingleDocV1[] = [];

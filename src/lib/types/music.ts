@@ -16,6 +16,7 @@ export interface MusicCredit {
 }
 
 export interface BaseMusicDoc {
+  id: string;
   slug: string;
   title: string;
   artist?: string;

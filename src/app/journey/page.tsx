@@ -26,7 +26,7 @@ const entries = [
   {
     slug: "field-notes-from-the-studio",
     title: "Field notes from the studio",
-    meta: "Observation · December 2024",
+    meta: "Field Note · December 2024",
   },
 ];
 

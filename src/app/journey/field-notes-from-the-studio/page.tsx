@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 export default function FieldNotesFromTheStudioPage() {
   return (
     <article className="stack gap-medium">
-      <p className="meta">Observation · December 2024</p>
+      <p className="meta">Field Note · December 2024</p>
       <h1>Field notes from the studio</h1>
       <p className="muted">Placeholder entry.</p>
     </article>

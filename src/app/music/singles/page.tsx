@@ -18,12 +18,6 @@ function formatDuration(seconds?: number) {
   return `${mins}:${secs}`;
 }
 
-function getFirstSentence(text?: string) {
-  if (!text) return null;
-  const match = text.match(/[^.?!]*[.?!]/);
-  return match ? match[0].trim() : text.trim();
-}
-
 export default async function SinglesPage() {
   const singles = await listPublishedSingles();
 
@@ -51,8 +45,6 @@ export default async function SinglesPage() {
               duration ? duration : null,
             ].filter(Boolean);
 
-            const contextLine = getFirstSentence(single.context);
-
             return (
               <article key={single.slug} className="teaser">
                 <div className="teaser-header">
@@ -61,7 +53,6 @@ export default async function SinglesPage() {
                       {single.title}
                     </Link>
                   </h2>
-                  {contextLine ? <p>{contextLine}</p> : null}
                   {metaParts.length > 0 ? (
                     <p className="meta">{metaParts.join(" · ")}</p>
                   ) : null}
